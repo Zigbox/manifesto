@@ -326,8 +326,9 @@ footer a{color:var(--muted)}
 // ===== Site data: fill these in before publishing. Empty fields show the manifesto's placeholders. =====
 const SITE = {
   author: "Alex Zuzin",
-  date: "",          // publication date, ISO "YYYY-MM-DD"; the prediction's deadline is two years later
-  contact: "",       // a mailto: or https: link for "Get in touch"
+  date: "2026-11-04", // publication date, ISO "YYYY-MM-DD"; the prediction's deadline is two years later
+  // The contact address, in parts so it never appears whole in the page source; joined only on click.
+  email: ["alex.zuzin", "age-of-the-agent", "com"],
   zigboxStage: "Pre-alpha · M6 shipped",  // keep in step with the Zigbox site's SITE.stage
   zigcubeStage: "Pre-alpha · C0 shipped", // keep in step with the Zigcube site's SITE.stage
 };
@@ -350,7 +351,10 @@ if (SITE.date) {
 }
 $("#date").textContent = when; $("#predict-by").textContent = by;
 const c = $("#contact-btn");
-if (SITE.contact) { c.href = SITE.contact; } else { c.removeAttribute("href"); c.style.opacity = .55; c.title = "Contact link coming"; c.textContent = "[contact]"; }
+if (SITE.email.length === 3) {
+  c.href = "#contact"; c.title = "Opens your email app";
+  c.addEventListener("click", e => { e.preventDefault(); const [u, d, t] = SITE.email; location.href = "mailto:" + u + "\u0040" + d + "." + t; });
+} else { c.removeAttribute("href"); c.style.opacity = .55; c.title = "Contact link coming"; c.textContent = "[contact]"; }
 $("#box-stage").textContent = SITE.zigboxStage; $("#cube-stage").textContent = SITE.zigcubeStage;
 </script>
 </body>
