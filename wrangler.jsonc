@@ -1,0 +1,13 @@
+// age-of-the-agent.com as a Cloudflare Worker with static assets only: no script runs.
+// .github/workflows/deploy.yml runs `wrangler deploy` from the repository root.
+{
+  "name": "age-of-the-agent",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": false,
+  "assets": {
+    "directory": "./site",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "routes": [{ "pattern": "age-of-the-agent.com", "custom_domain": true }]
+}
