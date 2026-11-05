@@ -1,0 +1,38 @@
+name: Deploy age-of-the-agent.com
+# Deploys site/ to a Cloudflare Worker with static assets (wrangler.jsonc).
+# Needs repository secrets CLOUDFLARE_API_TOKEN (Account: Workers Scripts Edit; Zone
+# age-of-the-agent.com: Workers Routes Edit and DNS Edit) and CLOUDFLARE_ACCOUNT_ID.
+# A pull request only checks the Worker config; main deploys.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the site
+        run: 'test -s site/index.html || { echo "not deployed: site/index.html is missing"; exit 1; }'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the Worker config
+        run: npx --yes wrangler@4.151.3 deploy --dry-run
+      - name: Deploy
+        if: github.event_name != 'pull_request'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "not deployed: the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets are not set"
+            exit 1
+          fi
+          npx --yes wrangler@4.151.3 deploy
