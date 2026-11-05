@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check the site
-        run: test -s site/index.html || { echo "not deployed: site/index.html is missing"; exit 1; }
+        run: 'test -s site/index.html || { echo "not deployed: site/index.html is missing"; exit 1; }'
       - uses: actions/setup-node@v4
         with:
           node-version: 22
