@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>og</title>
+<!-- 1200x630 link-preview card. Colors and type come from site/index.html (dark terminal band). Render with tools/og/render.js. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#19181b;--fg:#ecebe8;--dim:#8f8c93;--accent:#ff8a7a;--line:#34323a;
+  --display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden;background:var(--bg)}
+body{position:relative;color:var(--fg);font-family:var(--display)}
+/* The site's mark (Zigbox square + Zigcube diamond), drawn large and bled off the right edge. */
+.big{position:absolute;right:-150px;top:50%;width:560px;height:560px;margin-top:-280px}
+.big::before,.big::after{content:"";position:absolute;inset:60px;border:14px solid var(--accent);border-radius:14px}
+.big::before{opacity:.95}
+.big::after{transform:rotate(45deg);opacity:.35}
+.content{position:absolute;left:80px;top:0;bottom:0;width:820px;display:flex;flex-direction:column;justify-content:space-between;padding:68px 0 56px}
+.eyebrow{display:flex;align-items:center;gap:16px;font:500 24px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.mark{width:40px;height:40px;position:relative;flex:none}
+.mark::before,.mark::after{content:"";position:absolute;inset:7px;border:3px solid var(--accent);border-radius:3px}
+.mark::after{transform:rotate(45deg)}
+h1{font-weight:700;font-size:148px;line-height:.98;letter-spacing:-.025em}
+h1 span{color:var(--accent)}
+.quote{font:500 40px/1.25 var(--display);color:var(--fg);padding-left:22px;border-left:5px solid var(--accent)}
+.domain{font:500 28px/1 var(--mono);color:var(--dim);letter-spacing:.02em}
+.mid{display:flex;flex-direction:column;gap:36px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="big" aria-hidden="true"></div>
+<div class="content">
+  <div class="eyebrow"><span class="mark"></span>A software manifesto</div>
+  <div class="mid">
+    <h1>The Age of the <span>Agent</span></h1>
+    <p class="quote">Safety has to live in the substrate.</p>
+  </div>
+  <div class="domain">age-of-the-agent.com</div>
+</div>
+</body>
+</html>
