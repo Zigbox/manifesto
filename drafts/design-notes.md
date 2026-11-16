@@ -66,6 +66,11 @@ Scale and spacing were reduced by about 25–30% without changing the components
 - In-section gaps (table, figures, composition, rule, principles, verdict, closing) were reduced by roughly a third. Card padding, table cells and diagram nodes were tightened proportionally.
 - The question stagger is now 56 / 112px. The closing block is `min(60vh, 640px)` rather than 84vh.
 - **Prediction overflow.** The date was sized from the viewport and filled about 95% of its column with fallback fonts. Wider font metrics (Safari, or a failed web-font load) pushed it past the column. It is now capped by its own column width (`container-type:inline-size` on the body, `11cqi`), so it keeps at least 40% headroom at every width.
+- **Follow-up nits.**
+  - The three questions are colour-coded cards again: accent, amber and blue top rules with tinted fills, cascading 0 / 24 / 48px on desktop and one column on phones.
+  - "A prompt is a request. A capability is a fact." is removed (here and in `main.md`). "Safety has to live in the substrate." is now a `blockquote` with an accent bar.
+  - "confused deputy" is bold in the margin note.
+  - "Get in touch" (accent) and "Try Zigbox" (Zigbox amber) are filled buttons.
 - **Closing mark.** The rotated square stuck out of its box by about 5px. It is now inset by 16%.
 
 ## Graphic vocabulary

@@ -91,6 +91,7 @@ h2{font-size:clamp(1.6rem,2.6vw,2.25rem);letter-spacing:-.02em;line-height:1.08;
 .row>p:not(.note){margin:0 0 1.1em}
 .note{font:400 .8125rem/1.5 var(--mono);color:var(--muted);border-left:1px solid var(--line);padding:2px 0 2px 14px;max-width:30ch;margin:0}
 .note a{color:var(--fg)}
+.note b{color:var(--fg);font-weight:700}
 
 /* Graphic primitives. */
 .g{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:square;vertical-align:-3px;overflow:visible}
@@ -168,11 +169,13 @@ nav a{color:var(--muted);text-decoration:none} nav a:hover{color:var(--fg)}
 .after-fig{margin-top:clamp(36px,4.5vw,64px)}
 
 /* 02: three questions as numbered statements. */
-.qs{list-style:none;padding:0;margin:0;max-width:var(--w-wide);border-bottom:1px solid var(--line)}
-.qs li{border-top:1px solid var(--line);padding:clamp(20px,2.6vw,30px) 0}
-.qs .qk{font:500 .8125rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
-.qs h3{font-size:clamp(1.4rem,2.4vw,1.9rem);line-height:1.12;letter-spacing:-.02em;max-width:26ch}
-.qs .f{margin:12px 0 0;color:var(--muted);max-width:52ch}
+.qs{list-style:none;padding:0;margin:0;max-width:var(--w-wide);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.qs li{--c:var(--accent);--ci:var(--accent);border:1px solid var(--line);border-top:4px solid var(--c);background:color-mix(in srgb,var(--c) 9%,var(--surface));padding:18px 20px 20px;display:flex;flex-direction:column;min-width:0}
+.qs li:nth-child(2){--c:var(--box);--ci:var(--box-ink)}
+.qs li:nth-child(3){--c:var(--cube);--ci:var(--cube)}
+.qs .qk{font:500 .8125rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ci);margin:0 0 10px}
+.qs h3{font-size:clamp(1.35rem,2vw,1.75rem);line-height:1.12;letter-spacing:-.02em}
+.qs .f{margin:14px 0 0;padding-top:12px;border-top:1px dashed color-mix(in srgb,var(--c) 45%,transparent);color:var(--muted);font-size:.9375rem}
 .verdict{margin:clamp(28px,3.5vw,44px) 0 0}
 .verdict b{font-weight:700}
 
@@ -200,7 +203,8 @@ nav a{color:var(--muted);text-decoration:none} nav a:hover{color:var(--fg)}
 .rule{margin-top:clamp(36px,4.5vw,64px);align-items:end}
 .rule .note{margin-bottom:.6em}
 .qual{margin-top:clamp(20px,2.6vw,28px)}
-.substrate{margin-top:clamp(20px,2.6vw,28px)}
+.substrate{margin:clamp(24px,3vw,36px) 0 0;padding:clamp(16px,2vw,24px) clamp(18px,2.4vw,28px);border-left:4px solid var(--accent);background:var(--accent-soft);max-width:var(--w-read)}
+.substrate p{margin:0;font:700 clamp(1.35rem,2.2vw,1.85rem)/1.2 var(--display);letter-spacing:-.02em}
 
 /* Principles: typographic rows, no boxes. */
 .pr-intro{margin:clamp(40px,5vw,64px) 0 12px;font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -279,16 +283,17 @@ nav a{color:var(--muted);text-decoration:none} nav a:hover{color:var(--fg)}
 .invites{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3.5vw,44px);max-width:var(--w-wide);border-top:2px solid var(--fg);padding-top:20px}
 .invites h3{font-size:clamp(1.1rem,1.4vw,1.25rem)}
 .invites p{color:var(--muted);margin:8px 0 14px}
-.go-link{font:700 1.075rem var(--display);color:var(--accent);text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:2px}
-.go-link:hover{border-bottom-width:3px}
+.go-link{--c:var(--accent);display:inline-flex;align-items:center;gap:8px;font:700 1.0625rem/1 var(--display);color:var(--bg);background:var(--c);text-decoration:none;padding:13px 20px;border:2px solid var(--c);border-radius:3px;transition:background-color .12s,color .12s}
+.go-link.zb{--c:var(--box-ink)}
+.go-link:hover{background:transparent;color:var(--c)}
 
 footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.875rem}
 footer .frame{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 footer a{color:var(--muted)}
 
 @media (min-width:901px){
-  .qs li:nth-child(2){padding-left:clamp(0px,4vw,56px)}
-  .qs li:nth-child(3){padding-left:clamp(0px,8vw,112px)}
+  .qs li:nth-child(2){margin-top:24px}
+  .qs li:nth-child(3){margin-top:48px}
 }
 @media (max-width:1100px){
   .row{grid-template-columns:minmax(0,1fr)}
@@ -315,7 +320,7 @@ footer a{color:var(--muted)}
   .wire .dl{left:calc(50% + 16px);bottom:auto;top:44px}
   .wire .stop{right:auto;left:50%;top:auto;bottom:4px;width:44px;height:5px;transform:translateX(-50%)}
   .principles li{grid-template-columns:minmax(0,1fr)}
-  .bib,.projects,.invites{grid-template-columns:minmax(0,1fr)}
+  .bib,.projects,.invites,.qs{grid-template-columns:minmax(0,1fr)}
   .step,.counts{grid-template-columns:minmax(0,1fr);gap:6px}
 }
 @media (max-width:600px){
@@ -482,12 +487,12 @@ footer a{color:var(--muted)}
 
         <div class="row rule">
           <p class="prop">Authority must not expand silently through composition.</p>
-          <p class="note">The classic name for this failure is the confused deputy: Hardy, 1988, <a href="#ref-5">[5]</a>.</p>
+          <p class="note">The classic name for this failure is the <b>confused deputy</b>: Hardy, 1988, <a href="#ref-5">[5]</a>.</p>
         </div>
         <div class="prose qual">
           <p>No system guarantees that in general; it holds only against a specification and a threat model. What a substrate can do is make authority explicit, enforce it below the agent, and make what it permits checkable.</p>
         </div>
-        <p class="stmt substrate">Safety has to live in the substrate. A prompt is a request. A capability is a fact.</p>
+        <blockquote class="substrate"><p>Safety has to live in the substrate.</p></blockquote>
 
         <p class="pr-intro">Each principle covers a gap the others leave</p>
         <ol class="principles">
@@ -594,7 +599,7 @@ footer a{color:var(--muted)}
         <h2 id="h-contact">Check the work</h2>
         <div class="invites">
           <div><h3>If you're deciding how much authority to give agents</h3><p>Bring me your answers to the three questions, or the places you could not answer them.</p><a class="go-link" id="contact-btn" href="#">Get in touch →</a></div>
-          <div><h3>If you build or run infrastructure</h3><p>Try Zigbox. Try to make it do something it was not granted, and tell me where it did.</p><a class="go-link" href="https://zigbox.org/zigbox/">Try Zigbox →</a></div>
+          <div><h3>If you build or run infrastructure</h3><p>Try Zigbox. Try to make it do something it was not granted, and tell me where it did.</p><a class="go-link zb" href="https://zigbox.org/zigbox/">Try Zigbox →</a></div>
         </div>
       </div>
     </div>

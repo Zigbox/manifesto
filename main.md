@@ -75,7 +75,9 @@ An agent may read customer records, to answer support tickets. It may send email
 
 **Authority must not expand silently through composition.**
 
-No system guarantees that in general; it holds only against a specification and a threat model. What a substrate can do is make authority explicit, enforce it below the agent, and make what it permits checkable. Safety has to live in the substrate. A prompt is a request. A capability is a fact.
+No system guarantees that in general; it holds only against a specification and a threat model. What a substrate can do is make authority explicit, enforce it below the agent, and make what it permits checkable.
+
+> Safety has to live in the substrate.
 
 Each principle covers a gap the others leave:
 
