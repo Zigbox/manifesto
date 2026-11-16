@@ -9,7 +9,7 @@ Direction: a technical publication rather than a product page. Swiss editorial g
 | `--w-read` | 680px | prose, ledes, questions |
 | `--w-wide` | 1000px | diagrams, comparison table, principles, bibliography, projects |
 | `--w-display` | 1180px | hero headline, prediction, closing |
-| `--rail` | 168px | left rail (section number + category) |
+| `--rail` | 120px | left rail (section number + category) |
 
 - Above 900px each section is a two-column grid, `rail | content`. The rail holds a large mono-lit section numeral (`01`) and a category label (`THE INVERSION`). It is sticky within its section, so the reader always knows where they are.
 - The right margin is used only for short annotations (`aside.note`, 12–13px mono): the CI reference next to the terminal, the "conceptual" caption, the Hardy cross-reference beside the composition rule. Below 1200px these fall back into the flow as footnote-style lines.
@@ -21,8 +21,8 @@ Padding varies with importance, not uniformly:
 
 | Weight | Padding (block) | Sections |
 | --- | --- | --- |
-| Major | `clamp(88px, 12vw, 160px)` | Hero, 01, 03, Prediction, Closing |
-| Standard | `clamp(64px, 8vw, 104px)` | 02, 04, 05 |
+| Major | `clamp(56px, 7vw, 80px)` | Hero, 01, 03, Prediction, Closing |
+| Standard | `clamp(44px, 5vw, 64px)` | 02, 04, 05 |
 
 Sections are separated by a full-width 1px rule. The hero's terminal band and the prediction are the two full-bleed dark moments.
 
@@ -32,15 +32,41 @@ All sizes use `clamp()`. No all-caps body text; caps appear only in mono labels 
 
 | Role | Face | Size |
 | --- | --- | --- |
-| H1 | Familjen Grotesk 700, tracking −0.03em | `clamp(2.6rem, 8.6vw, 7rem)` (≈ 112px at display width) |
-| Proposition (max. 3 on the page) | Familjen Grotesk 700 | `clamp(2rem, 5vw, 4rem)` |
-| H2 | Familjen Grotesk 700 | `clamp(1.9rem, 3.4vw, 3rem)` |
-| Statement (secondary tier) | Familjen Grotesk 500 | `clamp(1.4rem, 2.4vw, 1.9rem)` |
-| Body | IBM Plex Sans 400 | `clamp(1.0625rem, 1vw + .8rem, 1.1875rem)` (17–19px), line-height 1.6 |
+| H1 | Familjen Grotesk 700, tracking −0.035em | `clamp(2.4rem, 6.2vw, 5.125rem)` (82px at display width) |
+| Proposition (max. 3 on the page) | Familjen Grotesk 700 | `clamp(1.75rem, 3.4vw, 2.75rem)` (44px) |
+| H2 | Familjen Grotesk 700 | `clamp(1.6rem, 2.6vw, 2.25rem)` (36px) |
+| Business questions | Familjen Grotesk 700 | `clamp(1.4rem, 2.4vw, 1.9rem)` (30px) |
+| Prediction date | Familjen Grotesk 700 | `min(clamp(2.5rem, 6.2vw, 5rem), 11cqi)` (80px; capped by its column) |
+| Statement (secondary tier) | Familjen Grotesk 500 | `clamp(1.2rem, 1.8vw, 1.45rem)` |
+| Section numeral | IBM Plex Mono 400 | `clamp(1.75rem, 2.6vw, 2.125rem)` (34px) |
+| Body | IBM Plex Sans 400 | `clamp(1rem, .94rem + .15vw, 1.0625rem)` (16–17px), line-height 1.6 |
 | Annotation / label | IBM Plex Mono 400–500 | 12–13px |
 | Terminal | IBM Plex Mono | 13–14px |
 
 The three propositions: (1) "The first fact makes the old discipline affordable. The second makes it necessary." (2) "Authority must not expand silently through composition." (3) the closing two lines.
+
+## Density pass (2026-11-16)
+
+Scale and spacing were reduced by about 25–30% without changing the components, colours or contrast. Measured at 1440px:
+
+| | Before | After |
+| --- | --- | --- |
+| Hero headline | 112px | 82px |
+| Section heading | 48px | 36px |
+| Proposition | 62px | 44px |
+| Business question | 46px | 30px |
+| Body | 19px | 17px |
+| Section numeral | 52px | 34px |
+| Rail | 168px | 120px |
+| Section padding (std / major) | 104 / 160px | 64 / 80px |
+| Fig. 1 height | 405px | 324px |
+| Prediction date | 124px | 80px |
+| Page height | 12,939px | 9,499px (−27%) |
+
+- In-section gaps (table, figures, composition, rule, principles, verdict, closing) were reduced by roughly a third. Card padding, table cells and diagram nodes were tightened proportionally.
+- The question stagger is now 56 / 112px. The closing block is `min(60vh, 640px)` rather than 84vh.
+- **Prediction overflow.** The date was sized from the viewport and filled about 95% of its column with fallback fonts. Wider font metrics (Safari, or a failed web-font load) pushed it past the column. It is now capped by its own column width (`container-type:inline-size` on the body, `11cqi`), so it keeps at least 40% headroom at every width.
+- **Closing mark.** The rotated square stuck out of its box by about 5px. It is now inset by 16%.
 
 ## Graphic vocabulary
 
