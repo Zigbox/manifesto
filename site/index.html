@@ -18,381 +18,589 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The Age of the Agent. Safety has to live in the substrate. age-of-the-agent.com">
+<meta property="og:image:alt" content="The Age of the Agent, a software manifesto: Agents invert the economics of software. age-of-the-agent.com">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Age of the Agent: a software manifesto">
 <meta name="twitter:description" content="The Age of the Agent: a software manifesto. Agents invert the economics of software: the careful work we skipped is now cheap enough to do, and the tools we skipped it in are dangerous enough to require it.">
 <meta name="twitter:image" content="https://age-of-the-agent.com/og.png">
-<meta name="twitter:image:alt" content="The Age of the Agent. Safety has to live in the substrate. age-of-the-agent.com">
+<meta name="twitter:image:alt" content="The Age of the Agent, a software manifesto: Agents invert the economics of software. age-of-the-agent.com">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-img{max-width:100%}[hidden]{display:none!important}
-/* The same system as the Zigbox and Zigcube sites (type, column, terminal band), in a neutral ink with a red accent.
-   Zigbox keeps its amber and Zigcube its blue wherever they appear on this page. */
-:root{
+/* Visual system: see drafts/design-notes.md.
+   A technical publication: a left rail for section number and category, three measures
+   (reading, wide, display), hairline rules, mono labels, and four graphic primitives
+   (contained, granted, denied, composed). Zigbox keeps its amber and Zigcube its blue. */
+:root{color-scheme:light;
   --bg:#f5f4f1; --surface:#ffffff; --fg:#17171a; --muted:#5f5d64; --line:#e0ded9;
-  --accent:#b3362b; --accent-soft:#f6dfdb; --term:#19181b; --term-fg:#e8e6e3; --term-dim:#8f8c93; --term-accent:#ff8a7a;
-  --box:#b86a00; --cube:#2156b8; --ok:#2f7a4a;
+  --accent:#b3362b; --accent-soft:#f6dfdb; --term:#19181b; --term-fg:#e8e6e3; --term-dim:#8f8c93; --term-accent:#ff8a7a; --term-line:#ffffff2b;
+  --box:#b86a00; --box-ink:#8f5200; --cube:#2156b8; --ok:#2f7a4a;
   --display:"Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
   --body:"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --w-read:680px; --w-wide:1000px; --w-display:1180px;
+  --rail:168px; --gut:clamp(24px,4vw,48px); --pad:clamp(16px,4vw,40px);
+  --sp-major:clamp(88px,12vw,160px); --sp-std:clamp(64px,8vw,104px);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#121214; --surface:#1a1a1d; --fg:#ecebe8; --muted:#a19ea6; --line:#2b2a2f;
-  --accent:#ff8a7a; --accent-soft:#3a1d1a; --term:#0b0b0d; --term-fg:#e8e6e3; --term-dim:#86838b; --term-accent:#ff8a7a;
-  --box:#f2b13c; --cube:#7fa8f5; --ok:#6cc08a; color-scheme:dark}}
+  --accent:#ff8a7a; --accent-soft:#3a1d1a; --term:#0b0b0d; --term-fg:#e8e6e3; --term-dim:#8f8c93; --term-accent:#ff8a7a;
+  --box:#f2b13c; --box-ink:#f2b13c; --cube:#7fa8f5; --ok:#6cc08a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121214; --surface:#1a1a1d; --fg:#ecebe8; --muted:#a19ea6; --line:#2b2a2f;
-  --accent:#ff8a7a; --accent-soft:#3a1d1a; --term:#0b0b0d; --term-fg:#e8e6e3; --term-dim:#86838b; --term-accent:#ff8a7a;
-  --box:#f2b13c; --cube:#7fa8f5; --ok:#6cc08a; color-scheme:dark}
+  --accent:#ff8a7a; --accent-soft:#3a1d1a; --term:#0b0b0d; --term-fg:#e8e6e3; --term-dim:#8f8c93; --term-accent:#ff8a7a;
+  --box:#f2b13c; --box-ink:#f2b13c; --cube:#7fa8f5; --ok:#6cc08a; color-scheme:dark}
+
 *{box-sizing:border-box}
-html{scroll-padding-top:72px}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-a{color:var(--accent)} a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
-h2{font-size:1.75rem} h3{font-size:1.15rem}
+html{scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:clamp(1.0625rem,.95rem + .3vw,1.1875rem);line-height:1.6;margin:0;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);overflow-wrap:break-word}
+img,svg{max-width:100%}
+[hidden]{display:none!important}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;text-wrap:balance;line-height:1.1;margin:0}
 p{text-wrap:pretty}
-code{font-family:var(--mono);font-size:.9em}
-.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-header.top .wrap{display:flex;align-items:center;gap:20px;padding-block:12px;flex-wrap:wrap}
-.brand{font-family:var(--display);font-weight:700;font-size:1.2rem;color:var(--fg);text-decoration:none;display:flex;gap:10px;align-items:center}
-/* The mark: Zigbox's square and Zigcube's diamond, overlaid. */
+a{color:var(--accent);text-underline-offset:.18em;text-decoration-thickness:1px;transition:text-decoration-color .12s,color .12s}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:1px}
+.band :focus-visible,.predict :focus-visible{outline-color:var(--term-accent)}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:-9999px;top:8px;z-index:20;background:var(--fg);color:var(--bg);padding:8px 12px;font:500 .875rem var(--mono)}
+.skip:focus{left:16px}
+
+/* Frame and grid. */
+.frame{max-width:calc(var(--w-display) + 2 * var(--pad));margin:0 auto;
+  padding-left:max(var(--pad),env(safe-area-inset-left,0px));padding-right:max(var(--pad),env(safe-area-inset-right,0px))}
+.grid{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:var(--gut)}
+.body{min-width:0}
+.rail{position:sticky;top:76px;align-self:start;border-top:2px solid var(--fg);padding-top:12px;display:grid;gap:8px}
+.rail .num{font:400 clamp(2.4rem,3.6vw,3.25rem)/1 var(--mono);letter-spacing:-.05em;color:var(--accent);margin:0}
+.rail .cat{font:500 .75rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.rail .meta{font:400 .8125rem/1.45 var(--mono);color:var(--muted);margin:0}
+
+.sec{border-top:1px solid var(--line);padding-block:var(--sp-std)}
+.sec.major{padding-block:var(--sp-major)}
+h2{font-size:clamp(1.9rem,3.4vw,3rem);letter-spacing:-.02em;line-height:1.06;max-width:22ch;margin:0 0 clamp(28px,4vw,48px)}
+.prose{max-width:var(--w-read)}
+.prose p{margin:0 0 1.1em}
+.prose p:last-child{margin-bottom:0}
+.hinge{font-weight:500;border-left:3px solid var(--accent);padding-left:18px}
+
+/* Right-margin annotations: beside the text when there is room, in the flow when not. */
+.row{display:grid;grid-template-columns:minmax(0,var(--w-read)) minmax(0,1fr);column-gap:40px;align-items:start}
+.row>p:not(.note){margin:0 0 1.1em}
+.note{font:400 .8125rem/1.5 var(--mono);color:var(--muted);border-left:1px solid var(--line);padding:2px 0 2px 14px;max-width:30ch;margin:0}
+.note a{color:var(--fg)}
+
+/* Graphic primitives. */
+.g{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:square;vertical-align:-3px;overflow:visible}
+
+/* Large propositions (three on the page) and secondary statements. */
+.prop{font:700 clamp(2rem,4.8vw,3.9rem)/1.04 var(--display);letter-spacing:-.03em;max-width:19ch;margin:0;text-wrap:balance}
+.prop .a{color:var(--accent)}
+.stmt{font:500 clamp(1.35rem,2.3vw,1.85rem)/1.3 var(--display);letter-spacing:-.01em;max-width:34ch;margin:0;text-wrap:balance}
+
+/* Header. */
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header.top .frame{display:flex;align-items:center;gap:12px 24px;padding-block:12px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:1.15rem;color:var(--fg);text-decoration:none;display:flex;gap:10px;align-items:center}
 .mark{width:22px;height:22px;position:relative;flex:none}
 .mark::before,.mark::after{content:"";position:absolute;inset:3px;border:2px solid var(--accent);border-radius:2px}
 .mark::after{transform:rotate(45deg)}
-nav{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto;font-size:.9rem}
+nav{display:flex;gap:6px 20px;flex-wrap:wrap;margin-left:auto;font-size:.875rem}
 nav a{color:var(--muted);text-decoration:none} nav a:hover{color:var(--fg)}
-.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.72rem;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
-.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.btn{font:500 .95rem var(--body);padding:10px 16px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;cursor:pointer;display:inline-block}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
-.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
-.hero{padding-block:64px 48px;display:grid;grid-template-columns:1.15fr 1fr;gap:44px;align-items:center}
-.hero>*{min-width:0}
-.hero h1{font-size:clamp(2.3rem,5.4vw,3.8rem);letter-spacing:-.015em}
+/* Hero: declaration. */
+.hero{padding-block:clamp(56px,10vw,136px) clamp(56px,8vw,104px)}
+.kicker{display:flex;align-items:center;gap:12px;font:500 .8125rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.hero h1{font-size:clamp(2.6rem,8.6vw,7rem);line-height:.95;letter-spacing:-.04em;max-width:12.5ch;margin:clamp(20px,3vw,32px) 0 0}
 .hero h1 em{font-style:normal;color:var(--accent)}
-.hero p.lede{font-size:1.15rem;color:var(--muted);max-width:40ch;margin:18px 0 24px}
-.byline{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:20px}
+.hero-sub{margin:clamp(36px,5vw,64px) 0 0 calc(var(--rail) + var(--gut));max-width:var(--w-read)}
+.lede{font-size:clamp(1.2rem,1.7vw,1.45rem);line-height:1.45;margin:0 0 .8em}
+.lede+.lede{color:var(--muted)}
+.byline{font:400 .8125rem/1.5 var(--mono);color:var(--muted);margin:28px 0 0;padding-top:14px;border-top:1px solid var(--line)}
 
-.term{background:var(--term);color:var(--term-fg);border-radius:10px;font:14px/1.55 var(--mono);overflow-x:auto}
-.term .bar{display:flex;justify-content:space-between;gap:12px;padding:8px 14px;border-bottom:1px solid #ffffff14;color:var(--term-dim);font-size:.75rem}
-.term pre{margin:0;padding:14px 16px;white-space:pre}
+/* Hero band: demonstration. */
+.band{background:var(--term);color:var(--term-fg);border-block:1px solid var(--line);padding-block:clamp(56px,8vw,104px)}
+.band .rail,.predict .rail{border-top-color:var(--term-fg)}
+.band .rail .cat,.predict .rail .cat,.predict .rail .meta{color:var(--term-dim)}
+.band .rail .num{color:var(--term-accent)}
+.band .rail .num .g{width:40px;height:40px;stroke-width:1.2}
+.steps{display:grid;gap:clamp(24px,3vw,36px);margin:0;padding:0;list-style:none;max-width:var(--w-wide)}
+.step{display:grid;grid-template-columns:96px minmax(0,1fr);gap:8px 24px;align-items:start}
+.step .k{font:500 .75rem/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--term-dim)}
+.step p{margin:0;max-width:var(--w-read)}
+.term{border:1px solid var(--term-line);border-radius:3px;font:clamp(13px,1.1vw,14px)/1.65 var(--mono);background:#ffffff08;max-width:760px;min-width:0}
+.term .bar{display:flex;justify-content:space-between;gap:12px;padding:8px 14px;border-bottom:1px solid var(--term-line);color:var(--term-dim);font-size:.75rem}
+.term pre{margin:0;padding:16px 18px;white-space:pre;overflow-x:auto;font:inherit}
 .term .p{color:var(--term-accent)} .term .d{color:var(--term-dim)} .term .r{color:var(--term-fg);font-weight:500}
-.rec{font-size:.7rem;color:#6cc08a;border:1px solid #6cc08a;border-radius:4px;padding:0 6px;text-decoration:none;white-space:nowrap} .rec:hover,.rec:focus-visible{background:#ffffff14}
-.term-note{font-size:.85rem;color:var(--muted);margin:10px 2px 0}
+.rec{font:500 .8125rem var(--mono);color:#6cc08a;text-decoration:none;border-bottom:1px solid #6cc08a80;padding-bottom:1px}
+.rec:hover{border-bottom-color:#6cc08a}
+.principle{font:500 clamp(1.4rem,2.6vw,2.1rem)/1.25 var(--display);letter-spacing:-.01em;max-width:30ch;text-wrap:balance}
 
-section{padding-block:56px;border-top:1px solid var(--line)}
-.sec-head{margin-bottom:28px;max-width:62ch}
-.sec-head p{color:var(--muted);margin:8px 0 0}
-.prose{max-width:62ch;font-size:1.05rem}
-.prose p{margin:0 0 1em}
+/* 01: comparison table. */
+.invert{width:100%;max-width:var(--w-wide);border-collapse:collapse;margin:clamp(44px,6vw,80px) 0 0}
+.invert caption{caption-side:bottom;text-align:left}
+.cap{font:400 .8125rem/1.5 var(--mono);color:var(--muted);padding-top:14px;margin:0}
+.cap b{font-weight:500;color:var(--fg)}
+.invert thead th,.invert thead td{font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:0 20px 12px;border-bottom:2px solid var(--fg);color:var(--muted)}
+.invert thead th.new{color:var(--accent)}
+.invert tbody th{font:500 .75rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;vertical-align:top;padding:24px 16px 24px 0;width:15%;border-bottom:1px solid var(--line)}
+.invert td{font:500 clamp(1.1rem,1.9vw,1.55rem)/1.25 var(--display);padding:22px 20px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--muted)}
+.invert td.new{background:var(--accent-soft);color:var(--fg);font-weight:700}
 
-/* The inversion: the old world against the new, in two columns. */
-.invert{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:32px}
-.invert>div{padding:22px 24px;min-width:0}
-.invert>div+div{border-left:1px solid var(--line);background:var(--accent-soft)}
-.invert h3{margin-bottom:12px}
-.invert dl{margin:0;display:grid;gap:12px}
-.invert dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.invert dd{margin:2px 0 0}
-.invert .new dd{font-weight:500}
+/* Fig. 1: conceptual trends. */
+.fig{margin:clamp(56px,7vw,96px) 0 0;max-width:var(--w-wide)}
+.chart{position:relative;aspect-ratio:1000/420;border-bottom:1.5px solid var(--fg)}
+.chart svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.chart .cost{fill:none;stroke:var(--fg);stroke-width:2;stroke-dasharray:7 6}
+.chart .need{fill:none;stroke:var(--accent);stroke-width:3}
+.chart .guide{stroke:var(--muted);stroke-width:1;stroke-dasharray:2 4}
+.chart .lab{position:absolute;right:0;max-width:44%;text-align:right;font:500 .8125rem/1.4 var(--mono)}
+.chart .lab.need-l{bottom:calc(75% + 12px);color:var(--accent)}
+.chart .lab.cost-l{top:calc(75% + 12px)}
+.chart .lab i{display:inline-block;width:22px;vertical-align:middle;margin-right:8px;border-top:3px solid var(--accent)}
+.chart .lab.cost-l i{border-top:2px dashed var(--fg)}
+.chart .x{position:absolute;left:50%;top:50%;width:16px;height:16px;transform:translate(-50%,-50%) rotate(45deg);background:var(--bg);border:2px solid var(--fg)}
+.chart .x-l{position:absolute;left:50%;top:calc(50% + 24px);transform:translateX(-50%);background:var(--bg);padding:0 6px;white-space:nowrap;font:500 .75rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.axis{display:flex;justify-content:space-between;gap:16px;font:500 .75rem/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:10px}
+.axis span:last-child{text-align:right}
+.after-fig{margin-top:clamp(56px,7vw,96px)}
 
-.pull{font-family:var(--display);font-size:clamp(1.4rem,3vw,2rem);line-height:1.25;margin:8px 0 0;max-width:30ch;text-wrap:balance}
-.hinge{font-weight:500;color:var(--fg)}
+/* 02: three questions as numbered statements. */
+.qs{list-style:none;padding:0;margin:0;max-width:var(--w-wide);border-bottom:1px solid var(--line)}
+.qs li{border-top:1px solid var(--line);padding:clamp(28px,4vw,44px) 0}
+.qs .qk{font:500 .8125rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.qs h3{font-size:clamp(1.7rem,3.5vw,2.9rem);line-height:1.08;letter-spacing:-.02em;max-width:22ch}
+.qs .f{margin:16px 0 0;color:var(--muted);max-width:52ch}
+.verdict{margin:clamp(40px,5vw,64px) 0 0}
+.verdict b{font-weight:700}
 
-/* Three questions. */
-.qs{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:q}
-.qs li{counter-increment:q;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
-.qs li::before{content:"Q" counter(q);font-family:var(--mono);font-size:.78rem;color:var(--accent)}
-.qs h3{font-size:1.2rem;flex:1}
-.qs p{margin:0;font-size:.93rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:12px}
-.verdict{margin:20px 0 0;font-size:1.05rem;max-width:62ch}
+/* Fig. 2: composition. */
+.compose{margin:clamp(48px,6vw,80px) 0 0;max-width:var(--w-wide)}
+.cmp{display:grid;grid-template-columns:minmax(0,1fr) clamp(96px,14vw,168px) minmax(0,1fr);align-items:center}
+.grants{display:grid;grid-auto-rows:1fr;gap:24px;min-width:0}
+.node{border:1.5px solid var(--fg);background:var(--surface);padding:16px 18px;display:grid;gap:6px;align-content:start;min-width:0}
+.node .st{display:flex;align-items:center;gap:8px;font:500 .75rem/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.node .nm{font:700 clamp(1.1rem,1.7vw,1.4rem)/1.2 var(--display)}
+.node small{color:var(--muted);font-size:.875rem}
+.node.no{border:1.5px dashed var(--accent);background:var(--accent-soft)}
+.node.no .st{color:var(--accent)}
+.wire{position:relative;align-self:stretch;min-height:88px}
+.wire .brace{position:absolute;left:0;width:44%;top:calc(25% - 6px);bottom:calc(25% - 6px);border:1.5px solid var(--fg);border-left:0}
+.wire .stem{position:absolute;left:44%;right:10px;top:50%;border-top:1.5px solid var(--fg)}
+.wire .dia{position:absolute;left:44%;top:50%;width:14px;height:14px;transform:translate(-50%,-50%) rotate(45deg);background:var(--bg);border:1.5px solid var(--fg)}
+.wire .dl{position:absolute;left:calc(44% + 14px);bottom:calc(50% + 8px);font:500 .75rem var(--mono);white-space:nowrap}
+.wire .stop{position:absolute;right:3px;top:50%;width:5px;height:40px;transform:translateY(-50%);background:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 28px;list-style:none;padding:16px 0 0;margin:24px 0 0;border-top:1px solid var(--line);font:400 .8125rem/1.4 var(--mono);color:var(--muted)}
+.legend li{display:flex;align-items:center;gap:10px}
+.sw{display:inline-block;flex:none;width:22px;height:14px}
+.sw.solid{border:1.5px solid var(--fg)} .sw.dash{border:1.5px dashed var(--accent)}
+.sw.line{height:0;border-top:1.5px solid var(--fg)} .sw.stop{width:5px;height:16px;background:var(--accent);margin:0 8px}
+.rule{margin-top:clamp(56px,7vw,96px);align-items:end}
+.rule .note{margin-bottom:.6em}
+.qual{margin-top:clamp(28px,4vw,40px)}
+.substrate{margin-top:clamp(28px,4vw,40px)}
 
-/* Composition: two approved grants, one combination nobody approved. */
-.compose{margin:28px 0;display:grid;grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);align-items:center;gap:0 8px;max-width:820px}
-.compose .grants{display:grid;gap:12px;min-width:0}
-.compose .box{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:12px 16px;display:grid;gap:4px;min-width:0}
-.compose .box.combo{border:1px dashed var(--accent);background:var(--accent-soft)}
-.compose .lab{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase}
-.compose .ok{color:var(--ok)} .compose .no{color:var(--accent)}
-.compose code{font-size:.95rem;color:var(--fg);overflow-wrap:anywhere}
-.compose small{color:var(--muted);font-size:.85rem}
-.compose .arrow{font-family:var(--mono);font-size:1.6rem;color:var(--accent);text-align:center;line-height:1}
-.compose .arrow::before{content:"→"}
+/* Principles: typographic rows, no boxes. */
+.pr-intro{margin:clamp(56px,7vw,96px) 0 14px;font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.principles{list-style:none;padding:0;margin:0;max-width:var(--w-wide);border-top:2px solid var(--fg)}
+.principles li{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:10px 40px;padding:24px 0;border-bottom:1px solid var(--line)}
+.principles .tag{font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.principles h3{font-size:clamp(1.25rem,2vw,1.6rem);letter-spacing:-.01em;margin-top:6px}
+.principles p{margin:0;color:var(--muted)}
+.xref{display:inline-block;margin-top:10px;font:500 .8125rem var(--mono);color:var(--accent);text-decoration:none}
+.xref:hover{text-decoration:underline}
 
-/* Principles of buttoned-down software. */
-.principles{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.principles>div{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:20px 22px;min-width:0}
-.principles .tag{font-family:var(--mono);font-size:.7rem;color:var(--accent)}
-.principles .tag b{font-weight:500;color:var(--muted);margin-left:6px}
-.principles h3{margin:4px 0 6px}
-.principles p{margin:0;color:var(--muted);font-size:.95rem}
-.principles p+p{margin-top:8px}
-.principles .top{grid-column:1/-1;border-color:var(--accent)}
-.principles .top p{color:var(--fg);font-size:1rem}
-.principles .wide{grid-column:1/-1}
+/* 04: annotated bibliography. */
+.bib{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:clamp(36px,5vw,64px);max-width:var(--w-wide)}
+.bib h3.grp{font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-bottom:10px;border-bottom:2px solid var(--fg)}
+.refs{list-style:none;padding:0;margin:0}
+.refs li{display:grid;grid-template-columns:2.6em minmax(0,1fr);gap:0 10px;padding:18px 0;border-bottom:1px solid var(--line)}
+.refs .rn{font:500 .8125rem/2 var(--mono);color:var(--accent)}
+.refs .rk{font:500 .6875rem/2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.refs .rt{font:700 1.2rem/1.25 var(--display);margin:0}
+.refs .rt a{color:var(--fg);text-decoration-color:var(--line)}
+.refs .rt a:hover{text-decoration-color:var(--accent)}
+.refs .rc{font-size:.875rem;line-height:1.5;color:var(--muted);margin:4px 0 0}
+.refs .ra{margin:8px 0 0;font-size:1rem;line-height:1.5}
+.econ{margin-top:36px;padding-top:16px;border-top:2px solid var(--accent)}
+.econ h3{font-size:1.35rem}
+.econ p{margin:8px 0 0;color:var(--muted);font-size:1rem}
 
-/* Lineage: the old ideas, and what changed. */
-.lineage{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px}
-.lineage>div{border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0;display:flex;flex-direction:column;gap:4px}
-.lineage .tag{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
-.lineage h3{font-size:1rem}
-.lineage h3 a{color:var(--fg);text-decoration-color:var(--line);text-underline-offset:3px}
-.lineage h3 a:hover{text-decoration-color:var(--accent)}
-.lineage p{margin:0;color:var(--muted);font-size:.85rem;line-height:1.5}
-.lineage.ex{grid-template-columns:repeat(3,1fr)} .lineage.ex>div{border-style:dashed}
-.econ{border:1px solid var(--accent);border-radius:8px;padding:14px 16px;background:var(--accent-soft)}
-.econ h3{font-size:1.15rem} .econ p{margin:4px 0 0;color:var(--muted);font-size:.93rem}
+/* Prediction. */
+.predict{background:var(--term);color:var(--term-fg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:var(--sp-major)}
+.predict h2{max-width:none;margin:0;display:grid;gap:10px}
+.predict .lbl{font:500 .8125rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--term-dim)}
+.predict .date{font-size:clamp(3rem,9.4vw,7.75rem);line-height:.92;letter-spacing:-.04em;color:var(--term-accent)}
+.predict .claim{font:500 clamp(1.5rem,3.1vw,2.6rem)/1.18 var(--display);letter-spacing:-.015em;max-width:26ch;margin:clamp(32px,5vw,56px) 0 0;text-wrap:balance}
+.predict .claim em{font-style:normal;text-decoration:underline;text-decoration-color:var(--term-accent);text-decoration-thickness:2px;text-underline-offset:.16em}
+.counts{margin-top:clamp(36px,5vw,56px);padding-top:18px;border-top:1px solid var(--term-line);display:grid;grid-template-columns:96px minmax(0,1fr);gap:8px 24px;max-width:var(--w-wide)}
+.counts .k{font:500 .75rem/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--term-dim)}
+.counts p{margin:0;color:var(--term-dim);max-width:64ch;font-size:1rem}
 
-/* The prediction. */
-.predict{background:var(--term);color:var(--term-fg);border-radius:12px;padding:36px 32px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;border:1px solid var(--line)}
-.predict>*{min-width:0}
-.predict .when{font-family:var(--mono);color:var(--term-accent);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--term-accent);border-radius:6px;padding:6px 10px;white-space:nowrap;max-width:100%}
-@media (max-width:820px){.predict .when{white-space:normal}}
-.predict .claim{font-family:var(--display);font-size:clamp(1.3rem,2.8vw,1.85rem);line-height:1.3;margin:0;text-wrap:balance}
-.predict .claim em{font-style:normal;color:var(--term-accent)}
-.predict .crit{margin:16px 0 0;color:var(--term-dim);font-size:.95rem;max-width:64ch}
-
-/* The two projects, each in its own colors. */
-.projects{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.proj{border:1px solid var(--line);border-top:3px solid var(--c);border-radius:10px;background:var(--surface);padding:22px 24px;display:flex;flex-direction:column;gap:12px;min-width:0}
-.proj.box{--c:var(--box)} .proj.cube{--c:var(--cube)}
+/* 05: projects. */
+.sec-lede{max-width:var(--w-read);color:var(--muted);margin:-12px 0 clamp(36px,5vw,56px)}
+.projects{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:var(--w-wide)}
+.proj{border:1px solid var(--line);border-top:4px solid var(--c);background:var(--surface);padding:22px 24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.proj.box{--c:var(--box);--ci:var(--box-ink)} .proj.cube{--ci:var(--cube)} .proj.cube{--c:var(--cube)}
 .proj .head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.proj .head h3{font-size:1.45rem}
-.proj .head .pill{color:var(--c);margin-left:auto}
+.proj .head h3{font-size:1.5rem}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.75rem;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.proj .head .pill{color:var(--ci);margin-left:auto}
 .pmark{width:20px;height:20px;border:2px solid var(--c);border-radius:3px;position:relative;flex:none}
 .box .pmark::after{content:"";position:absolute;inset:4px;background:var(--c);border-radius:1px}
 .cube .pmark{transform:rotate(45deg) scale(.85)} .cube .pmark::after{content:"";position:absolute;inset:3px;border:2px solid var(--c);border-radius:1px}
-.proj .what{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
-.proj p{margin:0}
-.proj .grp{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-.proj ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;color:var(--muted);font-size:.93rem}
-.proj li{display:grid;grid-template-columns:14px 1fr;gap:8px}
-.proj li::before{content:"";width:6px;height:6px;margin-top:.6em;background:var(--c);border-radius:1px;box-sizing:border-box}
-.proj ul.plan li::before{background:transparent;border:1px solid var(--c)}
-.proj .ev{display:flex;gap:8px;flex-wrap:wrap}
-.proj .ev a{font-family:var(--mono);font-size:.72rem;color:var(--ok);border:1px solid var(--ok);border-radius:4px;padding:0 6px;text-decoration:none}
-.proj .ev a:hover{background:var(--accent-soft)}
-.proj .go{margin-top:auto;padding-top:8px;display:flex;gap:16px;flex-wrap:wrap;font-size:.92rem}
-.proj .go a{color:var(--c);font-weight:500;text-decoration:none} .proj .go a:hover{text-decoration:underline}
-.pledge{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}
-.pledge div{min-width:0} .pledge p{margin:4px 0 0;color:var(--muted);font-size:.93rem}
+.proj .what{font-family:var(--mono);font-size:.8125rem;color:var(--muted)}
+.proj .grp{font:500 .75rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:8px}
+.proj ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:.9375rem}
+.proj li{display:grid;grid-template-columns:16px 1fr;gap:10px;align-items:start}
+.proj li .g{margin-top:.3em;color:var(--c)}
+.proj ul.plan{color:var(--muted)}
+.proj .ev{display:flex;gap:8px 16px;flex-wrap:wrap}
+.proj .ev a{font:500 .75rem var(--mono);color:var(--ok);text-decoration:none;border-bottom:1px solid currentColor}
+.proj .go{margin-top:auto;padding-top:8px;display:flex;gap:16px;flex-wrap:wrap;font-size:.9375rem}
+.proj .go a{color:var(--ci);font-weight:600;text-decoration:none} .proj .go a:hover{text-decoration:underline}
+.small{margin:20px 0 0;max-width:var(--w-wide);font-size:.875rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 24px}
+.small span{display:inline-flex;align-items:center;gap:8px}
+.licence{margin:10px 0 0;max-width:var(--w-read);font-size:.875rem;color:var(--muted)}
+.licence i{font-style:normal;font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
 
-/* Closing. */
-.join{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
-.join>div{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:22px 24px;display:flex;flex-direction:column;gap:12px;min-width:0}
-.join p{margin:0;color:var(--muted)}
-.join .btn{align-self:flex-start;margin-top:auto}
-.closing{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:44px 0 8px;max-width:24ch;text-wrap:balance}
-.closing>span{display:block} .closing>span+span{margin-top:.35em}
-.closing .mark{display:inline-block;width:.8em;height:.8em;vertical-align:-.04em;margin-left:.2em}
+/* Closing: the climax, then the invitations. */
+.closing-wrap{min-height:min(84vh,900px);display:flex;align-items:center;padding-block:clamp(48px,8vw,96px)}
+.closing{font:700 clamp(2.1rem,5.8vw,4.9rem)/1.03 var(--display);letter-spacing:-.035em;margin:0;max-width:19ch}
+.closing>span{display:block}
+.closing>span:first-child{color:var(--muted);font-weight:500}
+.closing>span+span{margin-top:.35em}
+.closing .mark{display:inline-block;width:.62em;height:.62em;vertical-align:-.02em;margin-left:.18em}
+.closing .mark::before,.closing .mark::after{border-width:max(2px,.06em)}
+.invites{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);max-width:var(--w-wide);border-top:2px solid var(--fg);padding-top:24px}
+.invites h3{font-size:clamp(1.2rem,1.8vw,1.45rem)}
+.invites p{color:var(--muted);margin:10px 0 16px}
+.go-link{font:700 1.15rem var(--display);color:var(--accent);text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:2px}
+.go-link:hover{border-bottom-width:3px}
 
-footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.85rem}
-footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.875rem}
+footer .frame{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 footer a{color:var(--muted)}
 
-@media (max-width:820px){
-  .hero{grid-template-columns:1fr;padding-block:40px 32px}
-  .qs,.projects,.join{grid-template-columns:1fr}
-  .lineage,.lineage.ex{grid-template-columns:1fr 1fr}
-  .pledge{grid-template-columns:1fr 1fr}
-  .compose{grid-template-columns:minmax(0,1fr)}
-  .compose .arrow{padding:10px 0}
-  .compose .arrow::before{content:"↓"}
-  .predict{grid-template-columns:1fr;padding:28px 22px;gap:16px}
-  .predict .when{justify-self:start}
+@media (min-width:901px){
+  .qs li:nth-child(2){padding-left:clamp(0px,6vw,88px)}
+  .qs li:nth-child(3){padding-left:clamp(0px,12vw,176px)}
 }
-@media (max-width:560px){
-  .invert,.principles,.pledge,.lineage,.lineage.ex{grid-template-columns:1fr}
-  .invert>div+div{border-left:0;border-top:1px solid var(--line)}
-  nav{margin-left:0;width:100%}
+@media (max-width:1100px){
+  .row{grid-template-columns:minmax(0,1fr)}
+  .row .note{margin:0 0 1.4em}
+  .rule .note{order:2;margin:20px 0 0}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;border-top:0;padding-top:0;margin-bottom:16px}
+  .rail .num{font-size:.8125rem;letter-spacing:.08em;font-weight:500}
+  .rail .num::after{content:" ·";color:var(--muted)}
+  .band .rail .num::after{content:none}
+  .band .rail .num .g{width:16px;height:16px;stroke-width:1.5}
+  .hero-sub{margin-left:0}
+}
+@media (max-width:760px){
+  .cmp{grid-template-columns:minmax(0,1fr)}
+  .grants{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+  .grants .node{padding:12px 12px 14px}
+  .wire{height:112px;min-height:0}
+  .wire .brace{left:calc(25% - 3px);right:calc(25% - 3px);width:auto;top:0;bottom:auto;height:36px;border:1.5px solid var(--fg);border-top:0}
+  .wire .stem{left:50%;right:auto;top:36px;bottom:12px;border-top:0;border-left:1.5px solid var(--fg)}
+  .wire .dia{left:50%;top:36px}
+  .wire .dl{left:calc(50% + 16px);bottom:auto;top:44px}
+  .wire .stop{right:auto;left:50%;top:auto;bottom:4px;width:44px;height:5px;transform:translateX(-50%)}
+  .principles li{grid-template-columns:minmax(0,1fr)}
+  .bib,.projects,.invites{grid-template-columns:minmax(0,1fr)}
+  .step,.counts{grid-template-columns:minmax(0,1fr);gap:6px}
+}
+@media (max-width:600px){
+  header.top{position:static}
+  nav{margin-left:0;width:100%;gap:4px 16px}
+  .invert thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .invert,.invert tbody,.invert tr,.invert th,.invert td{display:block;width:auto}
+  .invert tbody tr{border-top:2px solid var(--fg);padding:14px 0 18px}
+  .invert tbody th{border:0;padding:0 0 8px;width:auto}
+  .invert caption{display:block;margin-bottom:8px}
+  .invert caption .cap{padding-top:0}
+  .invert td{border:0;padding:10px 12px}
+  .invert td::before{content:attr(data-h);display:block;font:500 .6875rem/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .invert td.new::before{color:var(--accent)}
+  .chart{aspect-ratio:1/1}
+  .chart .lab{max-width:62%}
+  .term pre{white-space:pre-wrap;overflow-wrap:anywhere}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap">
+<a class="skip" href="#inversion">Skip to the manifesto</a>
+
+<!-- Graphic primitives: contained, planned (contained, not yet built), granted, denied, composed. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="g-contained" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11"/><rect x="6.25" y="6.25" width="3.5" height="3.5" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="g-planned" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" stroke-dasharray="2.2 2.2"/></symbol>
+  <symbol id="g-granted" viewBox="0 0 16 16"><path d="M9.5 1.5v4M9.5 10.5v4"/><path d="M1.5 8h12.5M11 5l3 3-3 3"/></symbol>
+  <symbol id="g-denied" viewBox="0 0 16 16"><path d="M1.5 8h6.5M5.5 5l3 3-3 3"/><path d="M11.5 2v12" stroke-width="2.75"/></symbol>
+  <symbol id="g-composed" viewBox="0 0 16 16"><rect x="1" y="5.5" width="5" height="5"/><rect x="10" y="5.5" width="5" height="5"/><path d="M8 5.5 10.5 8 8 10.5 5.5 8Z" fill="currentColor"/></symbol>
+</svg>
+
+<header class="top"><div class="frame">
   <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span>The Age of the Agent</a>
   <nav aria-label="Sections"><a href="#inversion">The inversion</a><a href="#business">For business</a><a href="#builders">For builders</a><a href="#prediction">Prediction</a><a href="#building">What's being built</a></nav>
 </div></header>
 
-<main class="wrap" id="top">
-  <div class="hero">
-    <div>
-      <p class="eyebrow">A software manifesto</p>
-      <h1>Agents <em>invert</em> the economics of software.</h1>
+<main id="top">
+  <!-- Declaration -->
+  <div class="hero frame">
+    <p class="kicker"><span class="mark" aria-hidden="true"></span>A software manifesto</p>
+    <h1>Agents <em>invert</em> the economics of software.</h1>
+    <div class="hero-sub">
       <p class="lede">We are entering the age of the agent, and we are greeting it by handing agents tools built for humans.</p>
       <p class="lede">The careful work we skipped because it was expensive is now cheap enough to do. The tools we skipped it in are now dangerous enough to require it.</p>
-      <div class="cta">
-        <a class="btn primary" href="#inversion">Read the manifesto</a>
-        <a class="btn" href="#building">See what's being built</a>
-      </div>
       <p class="byline"><span id="author"></span> · <span id="date"></span><span id="revised"></span></p>
-    </div>
-    <div>
-      <p class="term-note">The difference fits in one command. A program in a Zigbox container tries to reach the internet. It was never granted a network, so it has none, and the runtime says why:</p>
-      <div class="term" aria-label="A refusal from Zigbox, recorded in CI">
-        <div class="bar"><span>zbx · no ambient authority</span><a class="rec" href="https://github.com/Zigbox/zigbox/actions/runs/40751616386">✓ recorded in CI · M5</a></div>
-        <pre id="hero-term"></pre>
-      </div>
-      <p class="term-note">Nothing is permitted merely because it is reachable, and the refusal names its cause.</p>
     </div>
   </div>
 
-  <section id="inversion">
-    <div class="sec-head"><p class="eyebrow">01 · The inversion</p><h2>The careful work is now affordable, and necessary</h2></div>
-    <div class="prose">
-      <p>For fifty years, software has been built for a world where human attention is scarce and human effort expensive.</p>
-      <p>Formal methods, explicit contracts, strong types and capability-based design were never wrong. They were expensive: specifications to write, proofs to maintain, authority to thread through every interface. So they were used where failure was intolerable and skipped almost everywhere else.</p>
-      <p>Agents make much of that labor cheap: drafting contracts, writing property tests, threading capabilities through an API. Work that was rationed becomes abundant.</p>
-      <p class="hinge">Cheap code is not cheap correctness. Someone must still decide what the system should do, and something must still check that it does. Agents change what that work costs. They do not make it disappear.</p>
-      <p>The same agents also act. They run commands and move data and money through tools and permissions designed for a person at a keyboard, someone assumed to mean well and to notice when something looks wrong. An agent may be mistaken, pursuing the wrong goal, or following instructions slipped in by a stranger. It acts faster than anyone can watch.</p>
+  <!-- Demonstration -->
+  <div class="band" role="region" aria-label="Demonstration: a refusal from Zigbox, recorded in CI">
+    <div class="frame grid">
+      <div class="rail"><p class="num"><svg class="g" aria-hidden="true"><use href="#g-denied"/></svg></p><p class="cat">Demonstration</p></div>
+      <ol class="steps body">
+        <li class="step"><span class="k">Setup</span><p>The difference fits in one command. A program in a Zigbox container tries to reach the internet. It was never granted a network, so it has none, and the runtime says why:</p></li>
+        <li class="step"><span class="k">Output</span>
+          <div class="term" aria-label="Terminal output">
+            <div class="bar"><span>zbx · no ambient authority</span><span>static transcript</span></div>
+            <pre id="hero-term"></pre>
+          </div></li>
+        <li class="step"><span class="k">Evidence</span><p><a class="rec" href="https://github.com/Zigbox/zigbox/actions/runs/40751616386">✓ Recorded in CI · Zigbox M5 · run 40751616386</a></p></li>
+        <li class="step"><span class="k">Principle</span><p class="principle">Nothing is permitted merely because it is reachable, and the refusal names its cause.</p></li>
+      </ol>
     </div>
-    <div class="invert">
-      <div>
-        <h3>Built for people</h3>
-        <dl>
-          <div><dt>Effort</dt><dd>Scarce. Spend it on the demo.</dd></div>
-          <div><dt>Rigor</dt><dd>Where failure was intolerable.</dd></div>
-          <div><dt>Actor</dt><dd>One person, trusted, slow.</dd></div>
-          <div><dt>Authority</dt><dd>Whatever the user can reach.</dd></div>
-        </dl>
+  </div>
+
+  <!-- Argument -->
+  <section id="inversion" class="sec major" aria-labelledby="h-inversion">
+    <div class="frame grid">
+      <div class="rail"><p class="num">01</p><p class="cat">The inversion</p></div>
+      <div class="body">
+        <h2 id="h-inversion">The careful work is now affordable, and necessary</h2>
+        <div class="prose">
+          <p>For fifty years, software has been built for a world where human attention is scarce and human effort expensive.</p>
+        </div>
+        <div class="row">
+          <p>Formal methods, explicit contracts, strong types and capability-based design were never wrong. They were expensive: specifications to write, proofs to maintain, authority to thread through every interface. So they were used where failure was intolerable and skipped almost everywhere else.</p>
+          <p class="note">Sources for each are in <a href="#lineage">§ 04</a>, references [1]–[4].</p>
+        </div>
+        <div class="prose">
+          <p>Agents make much of that labor cheap: drafting contracts, writing property tests, threading capabilities through an API. Work that was rationed becomes abundant.</p>
+          <p class="hinge">Cheap code is not cheap correctness. Someone must still decide what the system should do, and something must still check that it does. Agents change what that work costs. They do not make it disappear.</p>
+          <p>The same agents also act. They run commands and move data and money through tools and permissions designed for a person at a keyboard, someone assumed to mean well and to notice when something looks wrong. An agent may be mistaken, pursuing the wrong goal, or following instructions slipped in by a stranger. It acts faster than anyone can watch.</p>
+        </div>
+
+        <table class="invert">
+          <caption><p class="cap"><b>Table 1</b> · Two design assumptions</p></caption>
+          <thead><tr><td></td><th scope="col">Built for people</th><th scope="col" class="new">Built for agents</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Effort</th><td data-h="Built for people">Scarce. Spend it on the demo.</td><td class="new" data-h="Built for agents">Cheap. Spend it on guarantees.</td></tr>
+            <tr><th scope="row">Rigor</th><td data-h="Built for people">Where failure was intolerable.</td><td class="new" data-h="Built for agents">Wherever it matters.</td></tr>
+            <tr><th scope="row">Actor</th><td data-h="Built for people">One person, trusted, slow.</td><td class="new" data-h="Built for agents">Many agents, untrusted, fast.</td></tr>
+            <tr><th scope="row">Authority</th><td data-h="Built for people">Whatever the user can reach.</td><td class="new" data-h="Built for agents">Only what was granted.</td></tr>
+          </tbody>
+        </table>
+
+        <figure class="fig">
+          <div class="chart" role="img" aria-label="Conceptual diagram, not measured data. Moving from human-directed to agent-directed software, the cost of careful engineering decreases while the need for reliable control increases. The two lines cross at the inversion.">
+            <svg viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <line class="guide" x1="500" y1="0" x2="500" y2="400" vector-effect="non-scaling-stroke"/>
+              <path class="cost" d="M0,100 C400,100 600,300 1000,300" vector-effect="non-scaling-stroke"/>
+              <path class="need" d="M0,300 C400,300 600,100 1000,100" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <span class="lab need-l" aria-hidden="true"><i></i>Need for reliable control increases</span>
+            <span class="lab cost-l" aria-hidden="true"><i></i>Cost of careful engineering decreases</span>
+            <span class="x" aria-hidden="true"></span><span class="x-l" aria-hidden="true">The inversion</span>
+          </div>
+          <div class="axis" aria-hidden="true"><span>Human-directed software</span><span>Agent-directed software →</span></div>
+          <figcaption class="cap"><b>Fig. 1</b> · Conceptual: the curves show direction, not measured data.</figcaption>
+        </figure>
+
+        <p class="prop after-fig">The first fact makes the old discipline affordable. <span class="a">The second makes it necessary.</span></p>
+        <div class="prose after-fig" style="margin-top:clamp(32px,4vw,48px)">
+          <p>Today, an agent is exactly as safe as the person who configured it and the least careful tool it can reach. At scale, failure stops being a question of whether, and becomes a question of when.</p>
+        </div>
       </div>
-      <div class="new">
-        <h3>Built for agents</h3>
-        <dl>
-          <div><dt>Effort</dt><dd>Cheap. Spend it on guarantees.</dd></div>
-          <div><dt>Rigor</dt><dd>Wherever it matters.</dd></div>
-          <div><dt>Actor</dt><dd>Many agents, untrusted, fast.</dd></div>
-          <div><dt>Authority</dt><dd>Only what was granted.</dd></div>
-        </dl>
+    </div>
+  </section>
+
+  <section id="business" class="sec" aria-labelledby="h-business">
+    <div class="frame grid">
+      <div class="rail"><p class="num">02</p><p class="cat">If you run a business</p></div>
+      <div class="body">
+        <h2 id="h-business">Before an agent gets near anything that matters, answer three questions</h2>
+        <ol class="qs">
+          <li id="q-reach"><p class="qk">01 / Reach</p><h3>What can it touch?</h3><p class="f">Not what it is meant to do: what it is able to do. Which systems, data and accounts, and who decided?</p></li>
+          <li id="q-failure"><p class="qk">02 / Failure</p><h3>When it is wrong, will you know, and can you contain it?</h3><p class="f">Is there a record of what it did, and a boundary the damage cannot cross?</p></li>
+          <li id="q-composition"><p class="qk">03 / Composition</p><h3>What can your approved tools do together?</h3><p class="f">Each tool passed review. Did anyone review the combinations?</p></li>
+        </ol>
+        <p class="stmt verdict">If you cannot answer these questions precisely, you do not know the authority you have delegated. <b>You are still accountable for it.</b></p>
       </div>
     </div>
-    <p class="pull">The first fact makes the old discipline affordable. The second makes it necessary.</p>
-    <div class="prose" style="margin-top:24px">
-      <p>Today, an agent is exactly as safe as the person who configured it and the least careful tool it can reach. At scale, failure stops being a question of whether, and becomes a question of when.</p>
-    </div>
   </section>
 
-  <section id="business">
-    <div class="sec-head"><p class="eyebrow">02 · If you run a business</p><h2>Before an agent gets near anything that matters, answer three questions</h2></div>
-    <ol class="qs">
-      <li><h3>What can it touch?</h3><p>Not what it is meant to do: what it is able to do. Which systems, data and accounts, and who decided?</p></li>
-      <li><h3>When it is wrong, will you know, and can you contain it?</h3><p>Is there a record of what it did, and a boundary the damage cannot cross?</p></li>
-      <li><h3>What can your approved tools do together?</h3><p>Each tool passed review. Did anyone review the combinations?</p></li>
-    </ol>
-    <p class="verdict">If you cannot answer these questions precisely, you do not know the authority you have delegated. <b>You are still accountable for it.</b></p>
-  </section>
+  <section id="builders" class="sec major" aria-labelledby="h-builders">
+    <div class="frame grid">
+      <div class="rail"><p class="num">03</p><p class="cat">If you build software</p></div>
+      <div class="body">
+        <h2 id="h-builders">Software for agents is buttoned down</h2>
+        <div class="prose">
+          <p>Containers, permission prompts and a human approving each step help. They do not solve the problem, because each judges one action at a time. The danger is often a sequence of permitted actions.</p>
+          <p>An agent may read customer records, to answer support tickets. It may send email, to reach suppliers. Neither permission is wrong. Together, unless something forbids it, they let the agent mail the customer database to anyone, including whoever planted instructions in the last ticket it read. No single step was unauthorized. The combination was never authorized at all.</p>
+        </div>
 
-  <section id="builders">
-    <div class="sec-head"><p class="eyebrow">03 · If you build software</p><h2>Software for agents is buttoned down</h2></div>
-    <div class="prose">
-      <p>Containers, permission prompts and a human approving each step help. They do not solve the problem, because each judges one action at a time. The danger is often a sequence of permitted actions.</p>
-      <p>An agent may read customer records, to answer support tickets. It may send email, to reach suppliers. Neither permission is wrong. Together, unless something forbids it, they let the agent mail the customer database to anyone, including whoever planted instructions in the last ticket it read. No single step was unauthorized. The combination was never authorized at all.</p>
-    </div>
-    <figure class="compose" aria-label="Two approved grants combine into an authority nobody approved">
-      <div class="grants">
-        <div class="box"><span class="lab ok">✓ approved</span><code>read customer records</code><small>to answer support tickets</small></div>
-        <div class="box"><span class="lab ok">✓ approved</span><code>send email</code><small>to reach suppliers</small></div>
+        <figure class="compose" aria-describedby="fig2-desc">
+          <p id="fig2-desc" class="sr-only">Diagram. Grant A, read customer records, is authorized. Grant B, send external email, is authorized. Their composition, disclosing customer records externally, was never authorized and is refused.</p>
+          <div class="cmp">
+            <div class="grants">
+              <div class="node"><span class="st"><svg class="g" aria-hidden="true"><use href="#g-granted"/></svg>A · Granted</span><span class="nm">read customer records</span><small>to answer support tickets</small></div>
+              <div class="node"><span class="st"><svg class="g" aria-hidden="true"><use href="#g-granted"/></svg>B · Granted</span><span class="nm">send external email</span><small>to reach suppliers</small></div>
+            </div>
+            <div class="wire" aria-hidden="true"><span class="brace"></span><span class="stem"></span><span class="dia"></span><span class="dl">A ∘ B</span><span class="stop"></span></div>
+            <div class="node no"><span class="st"><svg class="g" aria-hidden="true"><use href="#g-denied"/></svg>A ∘ B · Not granted · Refused</span><span class="nm">disclose customer records externally</span><small>the two grants, combined</small></div>
+          </div>
+          <ul class="legend" aria-label="Legend">
+            <li><span class="sw solid" aria-hidden="true"></span>Solid boundary: authorized</li>
+            <li><span class="sw line" aria-hidden="true"></span>Connection: attempted composition</li>
+            <li><span class="sw dash" aria-hidden="true"></span>Dashed red boundary: authority not established</li>
+            <li><span class="sw stop" aria-hidden="true"></span>Bar: refused</li>
+          </ul>
+          <figcaption class="cap"><b>Fig. 2</b> · Two approved grants combine into an authority nobody approved.</figcaption>
+        </figure>
+
+        <div class="row rule">
+          <p class="prop">Authority must not expand silently through composition.</p>
+          <p class="note">The classic name for this failure is the confused deputy: Hardy, 1988, <a href="#ref-5">[5]</a>.</p>
+        </div>
+        <div class="prose qual">
+          <p>No system guarantees that in general; it holds only against a specification and a threat model. What a substrate can do is make authority explicit, enforce it below the agent, and make what it permits checkable.</p>
+        </div>
+        <p class="stmt substrate">Safety has to live in the substrate. A prompt is a request. A capability is a fact.</p>
+
+        <p class="pr-intro">Each principle covers a gap the others leave</p>
+        <ol class="principles">
+          <li><div><span class="tag">Capabilities</span><h3>No ambient authority</h3></div><div><p>An agent holds explicit, unforgeable grants, and nothing else. Nothing is permitted merely because it is reachable.</p><a class="xref" href="#q-reach">→ Answers 01 / Reach</a></div></li>
+          <li><div><span class="tag">Contracts</span><h3>Explicit contracts, bounded effects</h3></div><div><p>Every operation declares what it needs and what it may change, so composition can be analyzed: a record read under one grant leaves through another only if a contract allows it.</p><a class="xref" href="#q-composition">→ Answers 03 / Composition</a></div></li>
+          <li><div><span class="tag">Types</span><h3>Invalid operations unrepresentable</h3></div><div><p>Where practical, a call the types forbid cannot be written, so it never needs refusing. Where types cannot reach, the runtime refuses.</p></div></li>
+          <li><div><span class="tag">Failure</span><h3>Predictable, contained, observable</h3></div><div><p>When the other layers miss, damage stops at a boundary and leaves a record.</p><a class="xref" href="#q-failure">→ Answers 02 / Failure</a></div></li>
+          <li><div><span class="tag">Legibility</span><h3>Legible semantics, actionable errors</h3></div><div><p>A refusal says what was refused, why, and which grant would allow it. Misuse stops being the easy path; correct use stays easy.</p></div></li>
+        </ol>
       </div>
-      <div class="arrow" aria-hidden="true"></div>
-      <div class="box combo"><span class="lab no">✗ never approved</span><code>customer records → any address</code><small>the two grants, combined</small></div>
-    </figure>
-    <div class="principles">
-      <div class="top"><span class="tag">above all</span><h3>Authority must not expand silently through composition.</h3><p>No system guarantees that in general; it holds only against a specification and a threat model. What a substrate can do is make authority explicit, enforce it below the agent, and make what it permits checkable.</p><p>Safety has to live in the substrate. A prompt is a request. A capability is a fact.</p></div>
-      <div><span class="tag">capabilities<b>→ Q1</b></span><h3>No ambient authority</h3><p>An agent holds explicit, unforgeable grants, and nothing else. Nothing is permitted merely because it is reachable.</p></div>
-      <div><span class="tag">contracts<b>→ Q3</b></span><h3>Explicit contracts, bounded effects</h3><p>Every operation declares what it needs and what it may change, so composition can be analyzed: a record read under one grant leaves through another only if a contract allows it.</p></div>
-      <div><span class="tag">types</span><h3>Invalid operations unrepresentable</h3><p>Where practical, a call the types forbid cannot be written, so it never needs refusing. Where types cannot reach, the runtime refuses.</p></div>
-      <div><span class="tag">failure<b>→ Q2</b></span><h3>Predictable, contained, observable</h3><p>When the other layers miss, damage stops at a boundary and leaves a record.</p></div>
-      <div class="wide"><span class="tag">legibility</span><h3>Legible semantics, actionable errors</h3><p>A refusal says what was refused, why, and which grant would allow it. Misuse stops being the easy path; correct use stays easy.</p></div>
     </div>
   </section>
 
-  <section id="lineage">
-    <div class="sec-head"><p class="eyebrow">04 · None of this is new</p><h2>The ideas are decades old. The economics are not.</h2></div>
-    <div class="lineage" aria-label="Ideas">
-      <div><span class="tag">1966 · approach</span><h3><a href="https://dl.acm.org/doi/10.1145/365230.365252">Capability security</a></h3><p>Dennis and Van Horn. Authority is a token you hold, not a place you can reach.</p></div>
-      <div><span class="tag">1969 · approach</span><h3><a href="https://dl.acm.org/doi/10.1145/363235.363259">Formal methods</a></h3><p>Hoare. A program's behavior can be proved against a specification.</p></div>
-      <div><span class="tag">1986 · approach</span><h3><a href="https://www.eiffel.org/doc/eiffel/ET-_Design_by_Contract_%28tm%29%2C_Assertions_and_Exceptions">Design by contract</a></h3><p>Meyer, Eiffel. Preconditions, postconditions and invariants belong to the interface.</p></div>
-      <div><span class="tag">1988 · technique</span><h3><a href="https://dl.acm.org/doi/10.1145/73560.73564">Effect systems</a></h3><p>Lucassen and Gifford. Types record what a computation may do, not only what it returns.</p></div>
-      <div><span class="tag">1988 · problem</span><h3><a href="https://dl.acm.org/doi/10.1145/54289.871709">The confused deputy</a></h3><p>Hardy. The composition problem, named: two legitimate authorities, tricked into combining.</p></div>
+  <section id="lineage" class="sec" aria-labelledby="h-lineage">
+    <div class="frame grid">
+      <div class="rail"><p class="num">04</p><p class="cat">None of this is new</p></div>
+      <div class="body">
+        <h2 id="h-lineage">The ideas are decades old. The economics are not.</h2>
+        <div class="bib">
+          <div>
+            <h3 class="grp">Concepts and techniques</h3>
+            <ol class="refs">
+              <li id="ref-1"><span class="rn">[1]</span><div><p class="rk">Approach</p><p class="rt"><a href="https://dl.acm.org/doi/10.1145/365230.365252">Capability security</a></p><p class="rc">J. B. Dennis and E. C. Van Horn, “Programming semantics for multiprogrammed computations.” <i>Communications of the ACM</i> 9(3), 1966.</p><p class="ra">Authority is a token you hold, not a place you can reach.</p></div></li>
+              <li id="ref-2"><span class="rn">[2]</span><div><p class="rk">Approach</p><p class="rt"><a href="https://dl.acm.org/doi/10.1145/363235.363259">Formal methods</a></p><p class="rc">C. A. R. Hoare, “An axiomatic basis for computer programming.” <i>Communications of the ACM</i> 12(10), 1969.</p><p class="ra">A program's behavior can be proved against a specification.</p></div></li>
+              <li id="ref-3"><span class="rn">[3]</span><div><p class="rk">Approach</p><p class="rt"><a href="https://www.eiffel.org/doc/eiffel/ET-_Design_by_Contract_%28tm%29%2C_Assertions_and_Exceptions">Design by contract</a></p><p class="rc">B. Meyer and the Eiffel language. Linked: Eiffel documentation, “Design by Contract, assertions and exceptions.”</p><p class="ra">Preconditions, postconditions and invariants belong to the interface.</p></div></li>
+              <li id="ref-4"><span class="rn">[4]</span><div><p class="rk">Technique</p><p class="rt"><a href="https://dl.acm.org/doi/10.1145/73560.73564">Effect systems</a></p><p class="rc">J. M. Lucassen and D. K. Gifford, “Polymorphic effect systems.” <i>POPL ’88</i>, 1988.</p><p class="ra">Types record what a computation may do, not only what it returns.</p></div></li>
+              <li id="ref-5"><span class="rn">[5]</span><div><p class="rk">Problem</p><p class="rt"><a href="https://dl.acm.org/doi/10.1145/54289.871709">The confused deputy</a></p><p class="rc">N. Hardy, “The Confused Deputy.” <i>ACM SIGOPS Operating Systems Review</i> 22(4), 1988.</p><p class="ra">The composition problem, named: two legitimate authorities, tricked into combining.</p></div></li>
+            </ol>
+          </div>
+          <div>
+            <h3 class="grp">Implementations</h3>
+            <ol class="refs" start="6">
+              <li id="ref-6"><span class="rn">[6]</span><div><p class="rk">System</p><p class="rt"><a href="https://sel4.systems/">seL4</a></p><p class="ra">A capability-based microkernel, machine-checked against its specification under stated assumptions.</p></div></li>
+              <li id="ref-7"><span class="rn">[7]</span><div><p class="rk">System</p><p class="rt"><a href="https://www.cl.cam.ac.uk/research/security/capsicum/">Capsicum</a></p><p class="ra">Capabilities in FreeBSD, confining existing Unix programs with modest changes.</p></div></li>
+              <li id="ref-8"><span class="rn">[8]</span><div><p class="rk">System</p><p class="rt"><a href="https://www.rust-lang.org/">Rust</a></p><p class="ra">An industrial language whose types rule out data races and memory errors in safe code.</p></div></li>
+            </ol>
+            <div class="econ"><h3>What's new is the economics.</h3><p>These are different guarantees: a proof, a confinement mechanism, a type discipline. None was free, and each was adopted where someone could afford it. That is what agents change.</p></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="lineage ex" aria-label="Systems that showed what these buy">
-      <div><span class="tag">2009 · showed it</span><h3><a href="https://sel4.systems/">seL4</a></h3><p>A capability-based microkernel, machine-checked against its specification under stated assumptions.</p></div>
-      <div><span class="tag">2010 · showed it</span><h3><a href="https://www.cl.cam.ac.uk/research/security/capsicum/">Capsicum</a></h3><p>Capabilities in FreeBSD, confining existing Unix programs with modest changes.</p></div>
-      <div><span class="tag">2015 · showed it</span><h3><a href="https://www.rust-lang.org/">Rust</a></h3><p>An industrial language whose types rule out data races and memory errors in safe code.</p></div>
-    </div>
-    <div class="econ"><h3>What's new is the economics.</h3><p>These are different guarantees: a proof, a confinement mechanism, a type discipline. None was free, and each was adopted where someone could afford it. That is what agents change.</p></div>
   </section>
 
-  <section id="prediction">
-    <div class="predict">
-      <span class="when">Prediction · by November 2028</span>
-      <div>
+  <section id="prediction" class="predict" aria-labelledby="h-prediction">
+    <div class="frame grid">
+      <div class="rail"><p class="cat">Stated</p><p class="meta" id="stated"></p></div>
+      <div class="body">
+        <h2 id="h-prediction"><span class="lbl">Prediction · by</span> <span class="date">November 2028</span></h2>
         <p class="claim">A significant agent incident will be publicly traced not to one bad tool but to <em>the composition of tools that each passed review.</em></p>
-        <p class="crit">It counts if a post-mortem, regulatory filing or credible investigation attributes material harm (disclosed data, lost money, a customer-facing outage) to an AI agent, and names as its cause a combination of individually approved tools or permissions, none unsafe alone. If none is on the public record by then, I was wrong, and I will say so here.</p>
+        <div class="counts"><span class="k">Counts if</span><p>It counts if a post-mortem, regulatory filing or credible investigation attributes material harm (disclosed data, lost money, a customer-facing outage) to an AI agent, and names as its cause a combination of individually approved tools or permissions, none unsafe alone. If none is on the public record by then, I was wrong, and I will say so here.</p></div>
       </div>
     </div>
   </section>
 
-  <section id="building">
-    <div class="sec-head"><p class="eyebrow">05 · What's being built</p><h2>If authority is to be explicit, it must be enforced below the agent</h2>
-      <p>If systems are to compose safely, the boundaries between them must be explicit too. Zigbox and Zigcube are experiments in both. I would rather be checked than believed: a milestone counts only when its demo passes on a clean machine in CI, and the run is linked.</p></div>
-    <div class="projects">
-      <article class="proj box">
-        <div class="head"><span class="pmark" aria-hidden="true"></span><h3>Zigbox</h3><span class="pill" id="box-stage">Public beta</span></div>
-        <span class="what">container runtime · no daemon · no root</span>
-        <ul>
-          <li>Linux privileges cut to a minimal allowlist, seccomp on, network off unless granted.</li>
-          <li>Images can be required to be signed before they run.</li>
-          <li>Every refusal is a coded diagnostic naming its cause and its fix.</li>
-          <li>Tested against a simulated host that injects faults at every step.</li>
-        </ul>
-        <div class="ev"><a href="https://github.com/Zigbox/zigbox/actions/runs/40751616386">✓ CI · no network unless granted</a><a href="https://github.com/Zigbox/zigbox/actions/runs/42959822443">✓ CI · signatures and run policy</a></div>
-        <div class="go"><a href="https://zigbox.org/zigbox/">Site, roadmap and demos →</a><a href="https://github.com/Zigbox/zigbox">Source</a></div>
-      </article>
-      <article class="proj cube">
-        <div class="head"><span class="pmark" aria-hidden="true"></span><h3>Zigcube</h3><span class="pill" id="cube-stage">Pre-alpha</span></div>
-        <span class="what">orchestrates Zigbox workloads</span>
-        <span class="grp">Demonstrated</span>
-        <ul>
-          <li>Placement and failover across nodes.</li>
-          <li>Jobs whose only route out is a declared relay.</li>
-        </ul>
-        <span class="grp">Designed, not yet built</span>
-        <ul class="plan">
-          <li>Services that talk only along declared grants.</li>
-          <li>Nodes that re-check trust before running anything, so a compromised control plane cannot run unsigned code.</li>
-        </ul>
-        <div class="ev"><a href="https://github.com/Zigbox/zigcube/actions/runs/43143701151">✓ CI · relay-only egress</a></div>
-        <div class="go"><a href="https://zigbox.org/zigcube/">Site, roadmap and demos →</a><a href="https://github.com/Zigbox/zigcube">Source</a></div>
-      </article>
-    </div>
-    <div class="pledge">
-      <div><h3>Apache 2.0</h3><p>Both projects, with a written pledge never to relicense.</p></div>
-      <div><h3>Decided in public</h3><p>The pledge was made in the open, where it can be held to.</p></div>
-      <div><h3>No lock-in</h3><p>DCO sign-off, no CLA. Nothing here locks you in.</p></div>
+  <section id="building" class="sec" aria-labelledby="h-building">
+    <div class="frame grid">
+      <div class="rail"><p class="num">05</p><p class="cat">What's being built</p></div>
+      <div class="body">
+        <h2 id="h-building">If authority is to be explicit, it must be enforced below the agent</h2>
+        <p class="sec-lede">If systems are to compose safely, the boundaries between them must be explicit too. Zigbox and Zigcube are experiments in both. I would rather be checked than believed: a milestone counts only when its demo passes on a clean machine in CI, and the run is linked.</p>
+        <div class="projects">
+          <article class="proj box">
+            <div class="head"><span class="pmark" aria-hidden="true"></span><h3>Zigbox</h3><span class="pill" id="box-stage">Public beta</span></div>
+            <span class="what">container runtime · no daemon · no root</span>
+            <ul>
+              <li><svg class="g" aria-hidden="true"><use href="#g-contained"/></svg><span>Linux privileges cut to a minimal allowlist, seccomp on, network off unless granted.</span></li>
+              <li><svg class="g" aria-hidden="true"><use href="#g-contained"/></svg><span>Images can be required to be signed before they run.</span></li>
+              <li><svg class="g" aria-hidden="true"><use href="#g-contained"/></svg><span>Every refusal is a coded diagnostic naming its cause and its fix.</span></li>
+              <li><svg class="g" aria-hidden="true"><use href="#g-contained"/></svg><span>Tested against a simulated host that injects faults at every step.</span></li>
+            </ul>
+            <div class="ev"><a href="https://github.com/Zigbox/zigbox/actions/runs/40751616386">✓ CI · no network unless granted</a><a href="https://github.com/Zigbox/zigbox/actions/runs/42959822443">✓ CI · signatures and run policy</a></div>
+            <div class="go"><a href="https://zigbox.org/zigbox/">Site, roadmap and demos →</a><a href="https://github.com/Zigbox/zigbox">Source</a></div>
+          </article>
+          <article class="proj cube">
+            <div class="head"><span class="pmark" aria-hidden="true"></span><h3>Zigcube</h3><span class="pill" id="cube-stage">Pre-alpha</span></div>
+            <span class="what">orchestrates Zigbox workloads</span>
+            <span class="grp">Demonstrated</span>
+            <ul>
+              <li><svg class="g" aria-hidden="true"><use href="#g-contained"/></svg><span>Placement and failover across nodes.</span></li>
+              <li><svg class="g" aria-hidden="true"><use href="#g-contained"/></svg><span>Jobs whose only route out is a declared relay.</span></li>
+            </ul>
+            <span class="grp">Designed, not yet built</span>
+            <ul class="plan">
+              <li><svg class="g" aria-hidden="true"><use href="#g-planned"/></svg><span>Services that talk only along declared grants.</span></li>
+              <li><svg class="g" aria-hidden="true"><use href="#g-planned"/></svg><span>Nodes that re-check trust before running anything, so a compromised control plane cannot run unsigned code.</span></li>
+            </ul>
+            <div class="ev"><a href="https://github.com/Zigbox/zigcube/actions/runs/43143701151">✓ CI · relay-only egress</a></div>
+            <div class="go"><a href="https://zigbox.org/zigcube/">Site, roadmap and demos →</a><a href="https://github.com/Zigbox/zigcube">Source</a></div>
+          </article>
+        </div>
+        <p class="small" aria-label="Key"><span><svg class="g" aria-hidden="true"><use href="#g-contained"/></svg>Built and running</span><span><svg class="g" aria-hidden="true"><use href="#g-planned"/></svg>Designed, not yet built</span></p>
+        <p class="licence"><i>Licensing</i>Both projects are Apache 2.0, with a written pledge never to relicense, made in public. DCO sign-off, no CLA. Nothing here locks you in.</p>
+      </div>
     </div>
   </section>
 
-  <section id="contact">
-    <div class="sec-head"><p class="eyebrow">06 · Get involved</p><h2>Check the work</h2></div>
-    <div class="join">
-      <div><h3>If you're deciding how much authority to give agents</h3><p>Bring me your answers to the three questions, or the places you could not answer them.</p><a class="btn primary" id="contact-btn" href="#">Get in touch</a></div>
-      <div><h3>If you build or run infrastructure</h3><p>Try Zigbox. Try to make it do something it was not granted, and tell me where it did.</p><a class="btn" href="https://zigbox.org/zigbox/">Try Zigbox</a></div>
+  <section id="contact" class="sec" aria-labelledby="h-contact">
+    <div class="frame closing-wrap">
+      <p class="closing"><span>We spent fifty years making software easier to write.</span><span>Now we have the means, and the need, to make it harder to misuse.<span class="mark" aria-hidden="true"></span></span></p>
     </div>
-    <p class="closing"><span>We spent fifty years making software easier to write.</span><span>Now we have the means, and the need, to make it harder to misuse.<span class="mark" aria-hidden="true"></span></span></p>
+    <div class="frame grid">
+      <div class="rail"><p class="num">06</p><p class="cat">Get involved</p></div>
+      <div class="body">
+        <h2 id="h-contact">Check the work</h2>
+        <div class="invites">
+          <div><h3>If you're deciding how much authority to give agents</h3><p>Bring me your answers to the three questions, or the places you could not answer them.</p><a class="go-link" id="contact-btn" href="#">Get in touch →</a></div>
+          <div><h3>If you build or run infrastructure</h3><p>Try Zigbox. Try to make it do something it was not granted, and tell me where it did.</p><a class="go-link" href="https://zigbox.org/zigbox/">Try Zigbox →</a></div>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 
-<footer><div class="wrap">
+<footer><div class="frame">
   <span>The Age of the Agent · <span id="foot-author"></span></span>
   <span><a href="https://zigbox.org/zigbox/">Zigbox</a> · <a href="https://zigbox.org/zigcube/">Zigcube</a> · <a href="https://github.com/Zigbox/manifesto">Source</a></span>
 </div></footer>
@@ -411,13 +619,14 @@ const SITE = {
 // ===== Rendering =====
 const $ = s => document.querySelector(s);
 function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
-// Recorded by demo-m5 in CI (run 40751616386), the first step of the Zigbox site's M5 entry.
+// Recorded by demo-m5 in CI (run 40751616386), the first step of the Zigbox site's M5 entry. Static: not typed out, not simulated.
 const HERO = [["$","zbx run alpine -- wget -qO- https://example.com"],["","wget: bad address 'example.com'"],["!","zbx: network: none (grant with --net)"],["","(exit 1)"]];
 $("#hero-term").innerHTML = HERO.map(([k,t])=>k==="$"? `<span class="p">$</span> ${esc(t)}` : k==="!"? `<span class="r">${esc(t)}</span>` : `<span class="d">${esc(t)}</span>`).join("\n");
 const author = SITE.author || "[Your name]";
 $("#author").textContent = author; $("#foot-author").textContent = author;
 const day = s => { const d = new Date(s + "T00:00:00Z"); return isNaN(d) ? "" : d.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric",timeZone:"UTC"}); };
 $("#date").textContent = (SITE.date && day(SITE.date)) || "[date]";
+$("#stated").textContent = (SITE.date && day(SITE.date)) || "[date]";
 if (SITE.revised && day(SITE.revised)) $("#revised").textContent = " · revised " + day(SITE.revised);
 const c = $("#contact-btn");
 if (SITE.email.length === 3) {

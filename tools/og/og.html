@@ -21,7 +21,7 @@ body{position:relative;color:var(--fg);font-family:var(--display)}
 .mark{width:40px;height:40px;position:relative;flex:none}
 .mark::before,.mark::after{content:"";position:absolute;inset:7px;border:3px solid var(--accent);border-radius:3px}
 .mark::after{transform:rotate(45deg)}
-h1{font-weight:700;font-size:148px;line-height:.98;letter-spacing:-.025em}
+h1{font-weight:700;font-size:112px;line-height:.95;letter-spacing:-.035em;max-width:720px}
 h1 span{color:var(--accent)}
 .quote{font:500 40px/1.25 var(--display);color:var(--fg);padding-left:22px;border-left:5px solid var(--accent)}
 .domain{font:500 28px/1 var(--mono);color:var(--dim);letter-spacing:.02em}
@@ -31,10 +31,9 @@ h1 span{color:var(--accent)}
 <body>
 <div class="big" aria-hidden="true"></div>
 <div class="content">
-  <div class="eyebrow"><span class="mark"></span>A software manifesto</div>
+  <div class="eyebrow"><span class="mark"></span>The Age of the Agent · a manifesto</div>
   <div class="mid">
-    <h1>The Age of the <span>Agent</span></h1>
-    <p class="quote">Safety has to live in the substrate.</p>
+    <h1>Agents <span>invert</span> the economics of software.</h1>
   </div>
   <div class="domain">age-of-the-agent.com</div>
 </div>
