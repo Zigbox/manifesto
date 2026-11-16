@@ -1,6 +1,6 @@
 # The Age of the Agent: A Software Manifesto
 
-Alex Zuzin · [publication date — the prediction in 04 assumes November 2026]
+Alex Zuzin · November 4, 2026 · revised November 16, 2026
 
 ---
 
@@ -67,7 +67,7 @@ If you cannot answer these questions precisely, you do not know the authority yo
 
 ---
 
-## 03 · If you build software
+## 03 · If you build software: software for agents is buttoned down
 
 Containers, permission prompts and a human approving each step help. They do not solve the problem, because each judges one action at a time. The danger is often a sequence of permitted actions.
 
@@ -124,7 +124,7 @@ Linux privileges cut to a minimal allowlist, seccomp on, network off unless gran
 Demonstrated: placement and failover across nodes, and jobs whose only route out is a declared relay. Designed, not yet built: services that talk only along declared grants, and nodes that re-check trust before running anything, so a compromised control plane cannot run unsigned code.
 [Site, roadmap and demos](https://zigbox.org/zigcube/) · [Source](https://github.com/Zigbox/zigcube) · CI: [relay-only egress](https://github.com/Zigbox/zigcube/actions/runs/43143701151)
 
-*Licensing.* Apache 2.0, with a written pledge never to relicense, made in public. DCO sign-off, no CLA. Nothing here locks you in. **[EDITORIAL: true of Zigcube today. Zigbox's LICENSE file says MIT while its spec and site say Apache 2.0; resolve before publication. See editorial-notes.md.]**
+*Licensing.* Both projects are Apache 2.0, with a written pledge never to relicense, made in public. DCO sign-off, no CLA. Nothing here locks you in.
 
 ---
 

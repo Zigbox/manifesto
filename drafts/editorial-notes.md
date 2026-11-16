@@ -57,7 +57,7 @@ Dropped:
 
 Checked against `Zigbox/zigbox` and `Zigbox/zigcube` (default branches, cloned 2026-11-16).
 
-1. **Licence conflict (blocking).** `main.md` and the site say both projects are Apache 2.0 with a no-relicensing pledge. That is true of Zigcube: its `LICENSE` file is Apache 2.0 and the pledge is in its README.
+1. **Licence conflict — resolved by the author (2026-11-16): both projects are Apache 2.0; Zigbox's MIT `LICENSE` file is the error and will be fixed there.** `main.md` and the site say both projects are Apache 2.0 with a no-relicensing pledge. That is true of Zigcube: its `LICENSE` file is Apache 2.0 and the pledge is in its README.
    - Zigbox's `LICENSE` file is **MIT** ("Copyright (c) 2026 DailyWombat"), and its README's licence section says MIT.
    - Zigbox's `docs/SPEC.md` and `site/index.html` say Apache 2.0 with the pledge.
    - The draft keeps the claim but marks it with an inline `[EDITORIAL]` flag. Resolve it in the Zigbox repository before publication, or narrow the claim to Zigcube.
